@@ -103,7 +103,6 @@ class Edge(object):
         return self._target
 
 
-
 class Graph(object):
     def __init__(self):
         self._gen = _Gen()
@@ -171,14 +170,14 @@ class Graph(object):
         if self.__frozen:
             return self._start_nodes
         else:
-            return tuple(n for n in self._nodes if n.is_start_node)
+            return tuple(n for n in self._nodes.values() if n.is_start_node)
 
     @property
     def end_nodes(self):
         if self.__frozen:
             return self._end_nodes
         else:
-            return tuple(n for n in self._nodes if n.is_end_node)
+            return tuple(n for n in self._nodes.values() if n.is_end_node)
 
     @property
     def frozen(self):
@@ -186,6 +185,9 @@ class Graph(object):
 
     def __getitem__(self, item_id):
         return self._nodes[item_id]
+
+    def __iter__(self):
+        return iter(self._nodes.values())
 
     def __str__(self):
         node_descs = []
