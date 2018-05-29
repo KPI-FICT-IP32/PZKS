@@ -189,6 +189,9 @@ class Graph(object):
     def __iter__(self):
         return iter(self._nodes.values())
 
+    def __len__(self):
+        return len(self._nodes)
+
     def __str__(self):
         node_descs = []
         edge_descs = []
