@@ -1,0 +1,4 @@
+.vagga/
+__pycache__
+*.pyc
+.python-version
