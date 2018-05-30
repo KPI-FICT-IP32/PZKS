@@ -99,7 +99,7 @@ class TaskGraph(object):
 
     def prioritize_nodes(self, alg):
         return sorted([
-            (self.g[node_id], alg(*self[node_id]))
+            (self.g[node_id], alg(self, *self[node_id]))
             for node_id in self._nodes
         ], key=lambda x: x[1])
 
@@ -131,35 +131,24 @@ class TaskGraph(object):
         ])
 
 
-def alg_diff_late_early(node, metrics):
+def alg_diff_late_early(graph, node, metrics):
     """Algorithm 2"""
     return metrics[LATE_START] - metrics[EARLY_START]
 
 
-def alg_node_connectivity(node, metrics):
+def alg_node_connectivity(graph, node, metrics):
     """Algorithm 10"""
     return -metrics[CONN]
 
 
-def alg_critical_path_start(node, metrics):
+def alg_critical_path_start(graph, node, metrics):
     """Algorithm 16"""
     return metrics[PATH_START]
 
 
 if __name__ == '__main__':
-    from graph import Graph
-    g = Graph()
-    g.add_node(3)
-    g.add_node(2)
-    g.add_node(6)
-    g.add_node(1)
-    g.add_node(8)
-    g.connect(1, 4, 12)
-    g.connect(2, 1, 2)
-    g.connect(2, 3, 12)
-    g.connect(2, 4, 5)
-    g.connect(3, 4, 9)
-    g.freeze()
+    from reader import read_task_graph_file
+    g = read_task_graph_file('examples/task_graph.dot')
     tg = TaskGraph(g)
     print(tg)
     # print(tg.prioritize_nodes(alg_diff_late_early))
