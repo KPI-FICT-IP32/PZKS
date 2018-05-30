@@ -260,7 +260,7 @@ class TaskGraphEditor(tk.Frame):
         ]:
             actions_menu.add_command(
                 label=alg.__doc__,
-                command=lambda: self.on_task_queue_clicked(alg)
+                command=lambda alg=alg: self.on_task_queue_clicked(alg)
             )
         menu.add_cascade(label='Task Actions', menu=actions_menu)
         root.config(menu=menu)
@@ -371,7 +371,7 @@ class TaskGraphEditor(tk.Frame):
     def on_task_queue_clicked(self, alg):
         tg = TaskGraph(self.g)
         queue = tg.prioritize_nodes(alg)
-        messagebox.showinfo(alg.__doc__, f'{queue}')
+        messagebox.showinfo(alg.__doc__, f'{alg.__doc__}\n\n{queue}')
 
     def switch_to_draw(self):
         self.__editor_mode = 'draw'
