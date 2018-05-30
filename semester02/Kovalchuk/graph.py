@@ -11,7 +11,6 @@ class _Gen(object):
 
 
 class Node(object):
-    
     def __init__(self, id_, weight):
         self._id = id_
         self._weight = weight
@@ -109,11 +108,24 @@ class Graph(object):
         self._nodes = {}
         self.__frozen = False
 
+    @staticmethod
+    def from_graph(graph):
+        g = Graph()
+        id_map = {}
+        for node in graph:
+            id_map[node.id] = g.add_node(node.weight)
+        for node in graph:
+            for edge in node.connections_out:
+                g.connect(id_map[edge.source.id], id_map[edge.target.id],
+                          edge.weight)
+        return g
+
     def add_node(self, weight):
         if self.__frozen:
             raise ValueError('Cannot add node to the frozen graph')
         node = Node(self._gen(), weight=weight)
         self._nodes[node.id] = node
+        return node.id
 
     def del_node(self, node):
         if self.__frozen:

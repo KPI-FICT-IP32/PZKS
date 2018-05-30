@@ -1,15 +1,19 @@
 from queue import Queue
 
 
-class CycleDetectedException(Exception):
+class ValidationError(Exception):
     pass
 
 
-class NotConnectedException(Exception):
+class CycleDetectedException(ValidationError):
     pass
 
 
-class EmptyException(Exception):
+class NotConnectedException(ValidationError):
+    pass
+
+
+class EmptyException(ValidationError):
     pass
 
 
@@ -50,7 +54,7 @@ def validate_connected(graph):
         for edge in node.connections_out:
             if edge.target.id not in visited:
                 todo.put(edge.target)
-    all_nodes = set(node.id for node in graph) 
+    all_nodes = set(node.id for node in graph)
     if all_nodes != visited:
         not_connected_nodes = all_nodes - visited
         raise NotConnectedException(f'Not connected: {not_connected_nodes}')

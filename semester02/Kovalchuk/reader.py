@@ -5,6 +5,10 @@ from graph import Graph
 def read_file(filename):
     with open(filename, 'r') as source:
         content = source.read()
+    return read(content)
+
+
+def read(content):
     definitions = dot_parser.parse_dot_data(content)
     graph = definitions[0]
     g = Graph()
