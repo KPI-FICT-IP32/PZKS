@@ -1,0 +1,17 @@
+graph SystemGraph {
+	Node_1 [label="1 (1)"];
+	Node_2 [label="2 (1)"];
+	Node_3 [label="3 (1)"];
+	Node_4 [label="4 (1)"];
+	Node_5 [label="5 (1)"];
+	Node_6 [label="6 (1)"];
+	Node_7 [label="7 (34)"];
+	Node_8 [label="8 (4)"];
+	Node_1 -- Node_6;
+	Node_1 -- Node_2;
+	Node_1 -- Node_3;
+	Node_1 -- Node_4;
+	Node_1 -- Node_5;
+	Node_1 -- Node_7;
+	Node_7 -- Node_8;
+}

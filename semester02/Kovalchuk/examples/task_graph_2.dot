@@ -1,0 +1,19 @@
+digraph TaskGraph {
+	Node_1 [label="1 (5)"];
+	Node_2 [label="2 (4)"];
+	Node_3 [label="3 (1)"];
+	Node_4 [label="4 (25)"];
+	Node_5 [label="5 (4)"];
+	Node_6 [label="6 (2)"];
+	Node_7 [label="7 (3)"];
+	Node_8 [label="8 (10)"];
+	Node_1 -> Node_5 [label="1"];
+	Node_1 -> Node_7 [label="1"];
+	Node_2 -> Node_5 [label="1"];
+	Node_2 -> Node_6 [label="1"];
+	Node_3 -> Node_6 [label="1"];
+	Node_3 -> Node_7 [label="1"];
+	Node_3 -> Node_8 [label="1"];
+	Node_5 -> Node_7 [label="1"];
+	Node_7 -> Node_8 [label="1"];
+}
