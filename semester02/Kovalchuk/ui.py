@@ -98,6 +98,7 @@ class SystemGraphEditor(tk.Frame):
             .decode('utf-8')
         )
         dot_data = dot_parser.parse_dot_data(generated_dot)[0]
+        _, gh = map(float, dot_data.get_bb()[len('"0,0,'):-1].split(','))
         nodes = [
             (int(node.get_name()[len('Node_'):]), node)
             for node in dot_data.get_nodes()
@@ -107,6 +108,7 @@ class SystemGraphEditor(tk.Frame):
         for (node_id, node) in nodes:
             weight = self.g[node_id].weight
             coordinates = tuple(map(float, node.get_pos()[1:-1].split(',')))
+            coordinates = (coordinates[0], gh - coordinates[1])
             node_gnode[node_id] = self.draw_task_node(coordinates, weight,
                                                       node_id)
         for node in self.g:
@@ -118,7 +120,7 @@ class SystemGraphEditor(tk.Frame):
 
     def on_save_clicked(self):
         filename = filedialog.asksaveasfilename(defaultextension='.dot')
-        if filename is None:
+        if not filename:
             return
         save(self.g, filename)
 
@@ -310,6 +312,7 @@ class TaskGraphEditor(tk.Frame):
             .decode('utf-8')
         )
         dot_data = dot_parser.parse_dot_data(generated_dot)[0]
+        _, gh = map(float, dot_data.get_bb()[len('"0,0,'):-1].split(','))
         nodes = [
             (int(node.get_name()[len('Node_'):]), node)
             for node in dot_data.get_nodes()
@@ -319,6 +322,7 @@ class TaskGraphEditor(tk.Frame):
         for (node_id, node) in nodes:
             weight = self.g[node_id].weight
             coordinates = tuple(map(float, node.get_pos()[1:-1].split(',')))
+            coordinates = (coordinates[0], gh - coordinates[1])
             node_gnode[node_id] = self.draw_task_node(coordinates, weight,
                                                       node_id)
         for node in self.g:
