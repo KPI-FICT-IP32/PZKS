@@ -132,8 +132,13 @@ class Graph(object):
             raise ValueError('Cannot del node from the frozen graph')
         if isinstance(node, int):
             node = self._nodes[node]
-        for other in node.connections:
-            node.disconnect(other)
+        to_disconnect = set()
+        for edge in node.connections:
+            to_disconnect.add(edge.source.id)
+            to_disconnect.add(edge.target.id)
+        to_disconnect.discard(node.id)
+        for other_id in to_disconnect:
+            self.disconnect(node.id, other_id)
         del self._nodes[node.id]
 
     def connect(self, source, target, weight):
