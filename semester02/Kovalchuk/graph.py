@@ -106,11 +106,11 @@ class Graph(object):
     def __init__(self):
         self._gen = _Gen()
         self._nodes = {}
-        self.__frozen = False
+        self._frozen = False
 
-    @staticmethod
-    def from_graph(graph):
-        g = Graph()
+    @classmethod
+    def from_graph(cls, graph):
+        g = cls()
         id_map = {}
         for node in graph:
             id_map[node.id] = g.add_node(node.weight)
@@ -121,14 +121,14 @@ class Graph(object):
         return g
 
     def add_node(self, weight):
-        if self.__frozen:
+        if self._frozen:
             raise ValueError('Cannot add node to the frozen graph')
         node = Node(self._gen(), weight=weight)
         self._nodes[node.id] = node
         return node.id
 
     def del_node(self, node):
-        if self.__frozen:
+        if self._frozen:
             raise ValueError('Cannot del node from the frozen graph')
         if isinstance(node, int):
             node = self._nodes[node]
@@ -137,7 +137,7 @@ class Graph(object):
         del self._nodes[node.id]
 
     def connect(self, source, target, weight):
-        if self.__frozen:
+        if self._frozen:
             raise ValueError('Cannot make conns in the frozen graph')
         if isinstance(source, int):
             source = self._nodes[source]
@@ -146,7 +146,7 @@ class Graph(object):
         source.connect(target, weight)
 
     def disconnect(self, source, target):
-        if self.__frozen:
+        if self._frozen:
             raise ValueError('Cannot del conns in the frozen graph')
         if isinstance(source, int):
             source = self._nodes[source]
@@ -155,7 +155,7 @@ class Graph(object):
         source.disconnect(target)
 
     def freeze(self):
-        self.__frozen = True
+        self._frozen = True
         self._reindex()
         self._start_nodes = tuple(n for n in self._nodes.values()
                                   if n.is_start_node)
@@ -179,21 +179,21 @@ class Graph(object):
 
     @property
     def start_nodes(self):
-        if self.__frozen:
+        if self._frozen:
             return self._start_nodes
         else:
             return tuple(n for n in self._nodes.values() if n.is_start_node)
 
     @property
     def end_nodes(self):
-        if self.__frozen:
+        if self._frozen:
             return self._end_nodes
         else:
             return tuple(n for n in self._nodes.values() if n.is_end_node)
 
     @property
     def frozen(self):
-        return self.__frozen
+        return self._frozen
 
     def __getitem__(self, item_id):
         return self._nodes[item_id]
@@ -218,7 +218,7 @@ class Graph(object):
                     f'[label="{edge.weight}"];'
                 )
         return '\n'.join([
-            'digraph TheGraph {',
+            'digraph TaskGraph {',
             '\n'.join(node_descs),
             '\n'.join(edge_descs),
             '}'

@@ -66,19 +66,19 @@ def validate_not_empty(graph):
 
 
 if __name__ == '__main__':
-    from graph import Graph
-    # g = Graph()
-    # g.add_node(1)
-    # g.add_node(2)
-    # g.add_node(3)
-    # g.add_node(4)
-    # g.add_node(5)
-    # g.add_node(6)
-    # g.connect(1, 2, 1)
-    # g.connect(2, 3, 1)
-    # g.connect(3, 4, 1)
-    # g.connect(4, 5, 1)
+    from system_graph import Graph
+    g = Graph()
+    g.add_node(1)
+    g.add_node(2)
+    g.add_node(3)
+    g.add_node(4)
+    g.add_node(5)
+    g.add_node(6)
+    g.connect(1, 2, 1)
+    g.connect(2, 3, 1)
+    g.connect(3, 4, 1)
+    g.connect(4, 5, 1)
     # g.connect(5, 6, 1)
     # g.connect(6, 1, 1)
     # validate_acyclic(g)
-    # validate_connected(g)
+    validate_connected(g)
