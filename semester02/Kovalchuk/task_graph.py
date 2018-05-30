@@ -138,7 +138,7 @@ def alg_diff_late_early(graph, node, metrics):
 
 def alg_node_connectivity(graph, node, metrics):
     """Algorithm 10"""
-    return -metrics[CONN]
+    return (-metrics[CONN], -metrics[PATH_END_NODE])
 
 
 def alg_critical_path_start(graph, node, metrics):
@@ -148,7 +148,7 @@ def alg_critical_path_start(graph, node, metrics):
 
 if __name__ == '__main__':
     from reader import read_task_graph_file
-    g = read_task_graph_file('examples/task_graph.dot')
+    g = read_task_graph_file('examples/task_graph_2.dot')
     tg = TaskGraph(g)
     print(tg)
     # print(tg.prioritize_nodes(alg_diff_late_early))
