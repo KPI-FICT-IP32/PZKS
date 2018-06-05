@@ -12,9 +12,9 @@ class GraphBuilder(object):
         self._num_nodes = 10
         self._correlation = 0.5
         self._min_node_weight = 1
-        self._max_node_weight = 100
+        self._max_node_weight = 10
         self._min_link_weight = 1
-        self._max_link_weight = 100
+        self._max_link_weight = 10
 
     def _validate(self):
         assert self._num_nodes > 0
