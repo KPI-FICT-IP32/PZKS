@@ -23,6 +23,9 @@ To install python dependencies, run:
 Running
 =======
 
+GUI
+---
+
 In order to start the gui, run the following in your terminal
 
 .. code-block::
@@ -31,6 +34,16 @@ In order to start the gui, run the following in your terminal
 
 
 There are some example graphs in ``example`` directory.
+
+Generator
+---------
+
+There is also a small commandline tool for task graph generation.
+You can invoke it using ``generator.py`` script:
+
+.. code-block::
+ 
+   python generator.py --help
 
 
 Extra
