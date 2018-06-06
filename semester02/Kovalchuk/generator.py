@@ -2,7 +2,7 @@
 
 import random
 
-from itertools import combinations
+from itertools import combinations, cycle
 from graph import Graph
 
 
@@ -63,9 +63,13 @@ class GraphBuilder(object):
         )
         links_aux = links_weight
         links = []
+        added_links = {}
         while links_aux > 0:
             if links_aux < self._min_link_weight:
-                links_aux += links.pop()              
+                try:
+                    links_aux += links.pop()
+                except IndexError:
+                    self._min_link_weight -= 1
                 continue
             link = random.randint(self._min_link_weight, self._max_link_weight)
             if link > links_aux:
@@ -75,12 +79,19 @@ class GraphBuilder(object):
         g = Graph()
         for weight in nodes:
             g.add_node(weight)
-        for (src, tgt) in all_links:
+        for (src, tgt) in cycle(all_links):
             if len(links) > 0:
-                g.connect(src+1, tgt+1, links.pop())
+                link = links.pop()
+                existing_link = added_links.get((src+1, tgt+1))
+                if existing_link is not None:
+                    g.disconnect(src+1, tgt+1)
+                    link += existing_link
+                g.connect(src+1, tgt+1, link)
+                added_links[src+1, tgt+1] = link
             else:
                 break
         return g
+
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
@@ -92,9 +103,11 @@ if __name__ == '__main__':
                     default=1)
     ap.add_argument('--max-node-weight', type=int, help='Max weight of node',
                     default=100)
-    ap.add_argument('--min-link-weight', type=int, help='Min weight of link',
+    ap.add_argument('--min-link-weight', type=int,
+                    help='Min weight of link, this can be ignored if needed',
                     default=1)
-    ap.add_argument('--max-link-weight', type=int, help='Max weight of link',
+    ap.add_argument('--max-link-weight', type=int,
+                    help='Max weight of link, this can be ignored if needed',
                     default=100)
     ap.add_argument('--correlation', type=float, help='Graph correlation',
                     default=0.5)
